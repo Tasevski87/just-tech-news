@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const sequelize = require('../../config/connection');
-const { Post, User, Comment, Vote } = require('../../models');
+const sequelize = require('../config/connection');
+const { Post, User, Comment} = require('../models');
 
 router.get('/', (req, res) => {
     Post.findAll({
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
     })
         .then(dbPostData => {
             // pass a single post object into the homepage template
-            res.render('homepage', dbPostData[0]);
+            res.render('homepage', { post });
         })
         .catch(err => {
             console.log(err);
