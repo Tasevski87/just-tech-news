@@ -1,23 +1,10 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { Post, User, Comment, Vote } = require('../models');
 
-
-// router.get('/', (req, res) => {
-//     res.render('homepage', {
-//         id: 1,
-//         post_url: 'https://handlebarsjs.com/guide/',
-//         title: 'Handlebars Docs',
-//         created_at: new Date(),
-//         vote_count: 10,
-//         comments: [{}, {}],
-//         user: {
-//             username: 'test_user'
-//         }
-//     });
-// });
-
+// get all posts for homepage
 router.get('/', (req, res) => {
+    console.log('======================');
     Post.findAll({
         attributes: [
             'id',
@@ -42,9 +29,9 @@ router.get('/', (req, res) => {
         ]
     })
         .then(dbPostData => {
-            // pass a single post object into the homepage template
             const posts = dbPostData.map(post => post.get({ plain: true }));
-            res.render('homepage', {posts });
+
+            res.render('homepage', { posts });
         })
         .catch(err => {
             console.log(err);
@@ -52,6 +39,13 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
 
+    res.render('login');
+});
 
 module.exports = router;

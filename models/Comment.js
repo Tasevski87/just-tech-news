@@ -42,4 +42,4 @@ Comment.init(
   }
 );
 
-module.exports = { User, Post, Vote, Comment };
+module.exports = Comment;
